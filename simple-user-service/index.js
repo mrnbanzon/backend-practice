@@ -17,6 +17,11 @@ app.post('/users', (req, res) => {
     return res.status(400).json({ error: 'username and email required' });
   }
 
+  // check duplicate email
+  if ([...users.values()].find(u => u.email === email)) {
+    return res.status(409).json({ error: 'email is already in use' });
+  }
+
   const id = crypto.randomUUID();
   const user = { id, username, email, createdAt: new Date().toISOString() };
 
