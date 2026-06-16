@@ -23,9 +23,35 @@ const listUsers = async (req, res, next) => {
   }
 };
 
+const getUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await userService.get(id);
+    res.json(user);
+  } catch (error) {
+    const status = error.status || 500;
+    res.status(status).json({ error: error.message || 'Internal Server Error' });
+    // next(error); 
+  }
+}
+
+const updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedUser = await userService.update(id, req.body);
+    res.json(updatedUser);
+  } catch (error) {
+    const status = error.status || 500;
+    res.status(status).json({ error: error.message || 'Internal Server Error' });
+    // next(error);
+  }
+};
+
 export default {
   createUser,
-  listUsers
+  getUser,
+  listUsers,
+  updateUser
 };
 
 
