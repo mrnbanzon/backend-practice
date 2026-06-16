@@ -14,7 +14,7 @@ const create = async (user) => {
   return await userRepo.create({ username, email });
 };
 
-const get = async (id) => {
+const findById = async (id) => {
   const user = await userRepo.findById(id);
 
   if (!user) {
@@ -41,7 +41,7 @@ const update = async (id, user) => {
 
 export default {
   create,
-  get,
+  findById,
   list,
   update,
 };

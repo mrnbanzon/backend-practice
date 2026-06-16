@@ -26,7 +26,7 @@ const listUsers = async (req, res, next) => {
 const getUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await userService.get(id);
+    const user = await userService.findById(id);
     res.json(user);
   } catch (error) {
     const status = error.status || 500;
