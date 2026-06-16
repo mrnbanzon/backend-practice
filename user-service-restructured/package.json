@@ -1,0 +1,17 @@
+{
+  "name": "user-service-restructured",
+  "version": "1.0.0",
+  "description": "restructured version of simple user service",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
