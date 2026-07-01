@@ -1,0 +1,17 @@
+{
+  "name": "basic-express-server",
+  "version": "1.0.0",
+  "description": "basic express server",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server.mjs",
+    "dev": "node --watch ./server.mjs"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
