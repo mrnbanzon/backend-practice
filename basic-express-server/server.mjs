@@ -30,6 +30,15 @@ app.get('/search', (req, res, next) => {
 // mounting a router
 app.use('/users', userRoutes);
 
+// chained route handlers
+app.route('/posts')
+  .get((req, res, next) => {
+    res.send('All posts');
+  })
+  .post((req, res, next) => {
+    res.send('Post created');
+  });
+
 // start server
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
