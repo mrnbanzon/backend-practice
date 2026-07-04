@@ -1,5 +1,7 @@
 import express from "express";
 
+import userRoutes from './routes/userRoutes.mjs';
+
 const app = express();
 
 // basic middleware
@@ -18,17 +20,15 @@ app.get('/hello', (req, res, next) => {
   res.send('Hello there!');
 });
 
-// - using route parameters
-app.get('/users/:id', (req, res, next) => {
-  res.send(`User ID: ${req.params.id}`);
-});
-
 // - using query parameters
 app.get('/search', (req, res, next) => {
   res.json({
     query: req.query.q,
   });
 });
+
+// mounting a router
+app.use('/users', userRoutes);
 
 // start server
 app.listen(3000, () => {
