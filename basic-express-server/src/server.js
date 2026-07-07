@@ -1,4 +1,5 @@
-import express from "express";
+import express from 'express';
+import compression from 'compression';
 
 import requestLog from './middleware/requestLog.js';
 import errorHandler from './middleware/errorHandler.js';
@@ -15,6 +16,9 @@ app.set('view engine', 'ejs');
 
 // import and use basic middleware
 app.use(requestLog);
+
+// use compression middleware to enable response compression
+app.use(compression());
 
 // mounting routers
 app.use('/', helloRoutes);
