@@ -6,6 +6,7 @@ import errorHandler from './middleware/errorHandler.js';
 import helloRoutes from './routes/hello.js';
 import userRoutes from './routes/users.js';
 import postRoutes from './routes/posts.js';
+import errorRoutes from './routes/error.js';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(requestLog);
 app.use('/', helloRoutes);
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
+app.use('/error', errorRoutes);
 
 // use global error handler middleware
 app.use(errorHandler);
