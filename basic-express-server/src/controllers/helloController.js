@@ -14,8 +14,13 @@ const search = (req, res, next) => {
   });
 };
 
+const welcome = (req, res, next) => {
+  res.render('welcome', { name: 'Developer' });
+};
+
 export {
   helloWorld,
   helloThere,
   search,
+  welcome,
 };

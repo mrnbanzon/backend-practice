@@ -10,6 +10,9 @@ import errorRoutes from './routes/error.js';
 
 const app = express();
 
+// use ejs template engine for rendering views
+app.set('view engine', 'ejs');
+
 // import and use basic middleware
 app.use(requestLog);
 
@@ -18,6 +21,9 @@ app.use('/', helloRoutes);
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/error', errorRoutes);
+
+// serve static files from the public directory
+app.use('/static', express.static('public'));
 
 // use global error handler middleware
 app.use(errorHandler);
