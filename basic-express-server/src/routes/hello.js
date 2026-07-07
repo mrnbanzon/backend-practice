@@ -4,7 +4,7 @@ import {
   helloWorld,
   helloThere,
   search,
-} from '../controllers/helloController.mjs';
+} from '../controllers/helloController.js';
 
 const router = express.Router();
 
