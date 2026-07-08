@@ -1,5 +1,7 @@
 import express from 'express';
 
+import userRoutes from './routes/users.js';
+
 const app = express();
 
 // adding a home route
@@ -7,16 +9,8 @@ app.get('/', (req, res, next) => {
   res.send('Welcome to basic-server-2!');
 });
 
-// adding a dynamic users route that extracts values from the URL
-app.get('/users/:username', (req, res, next) => {
-  const { username } = req.params;
-  res.json({
-    message: `Profile info for user: ${username}`,
-    user: {
-      username,
-    },
-  });
-});
+// mounting user routes under /users path
+app.use('/users', userRoutes);
 
 // adding a users route that reads query parameters
 app.get('/search', (req, res, next) => {
