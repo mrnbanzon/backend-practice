@@ -1,5 +1,6 @@
 import express from 'express';
 
+import requestLog from './middleware/requestLog.js';
 import notFound from './middleware/notFound.js';
 
 import homeRoutes from './routes/home.js';
@@ -8,6 +9,9 @@ import searchRoutes from './routes/search.js';
 import apiRoutes from './routes/api.js';
 
 const app = express();
+
+// middleware for logging requests
+app.use(requestLog);
 
 // mounting routes
 app.use('/', homeRoutes);
