@@ -1,15 +1,15 @@
 import express from 'express';
 
+import usersController from '../controller/users.js';
+
 const router = express.Router();
 
-router.get('/:username', (req, res, next) => {
-  const { username } = req.params;
-  res.json({
-    message: `Profile info for user: ${username}`,
-    user: {
-      username,
-    },
-  });
-});
+router.route('/')
+  .post(usersController.createUser);
 
+router.route('/:id')
+  .get(usersController.getUser)
+  .put(usersController.updateUser)
+  .delete(usersController.deleteUser);
+  
 export default router;

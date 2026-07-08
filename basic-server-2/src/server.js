@@ -1,6 +1,7 @@
 import express from 'express';
 
 import requestLog from './middleware/requestLog.js';
+import errorHandler from './middleware/errorHandler.js';
 import notFound from './middleware/notFound.js';
 
 import homeRoutes from './routes/home.js';
@@ -18,6 +19,9 @@ app.use('/', homeRoutes);
 app.use('/users', userRoutes);
 app.use('/search', searchRoutes);
 app.use('/api', apiRoutes);
+
+// adding error handler
+app.use(errorHandler);
 
 // adding 404 error handler for unmatched routes
 app.use(notFound);
