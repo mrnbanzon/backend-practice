@@ -6,6 +6,7 @@ import notFound from './middleware/notFound.js';
 
 import homeRoutes from './routes/home.js';
 import userRoutes from './routes/users.js';
+import postRoutes from './routes/posts.js';
 import searchRoutes from './routes/search.js';
 import apiRoutes from './routes/api.js';
 
@@ -20,6 +21,7 @@ app.use(requestLog);
 // mounting routes
 app.use('/', homeRoutes);
 app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
 app.use('/search', searchRoutes);
 app.use('/api', apiRoutes);
 
