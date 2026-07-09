@@ -21,8 +21,18 @@ const findById = async (id) => {
   return users.get(id);
 };
 
+const findByUserName = async (username) => {
+  const usrs = [...users.values()];
+  return usrs.find((usr) => usr.username === username);
+}
+
+const findByEmail = async (email) => {
+  const usrs = [...users.values()];
+  return usrs.find((usr) => usr.email === email);
+}
+
 const update = async (id, user) => {
-  const existing = await findUserById(id);
+  const existing = await findById(id);
 
   if (!user) {
     throw { status: 404, message: 'User not found' };
@@ -49,6 +59,8 @@ const remove = async (id) => {
 export default {
   create,
   findById,
+  findByUserName,
+  findByEmail,
   update,
   remove,
 }
