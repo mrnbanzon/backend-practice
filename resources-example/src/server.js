@@ -1,12 +1,19 @@
 import express from 'express';
 import crypto from 'crypto';
 
+import v1 from './routes/v1/index.js';
+import v2 from './routes/v2/index.js';
+
 const app = express();
 
 app.use(express.json());
 
 // mock data
 const users = new Map();
+
+// example of simple URI versioning
+app.use('/v1', v1);
+app.use('/v2', v2);
 
 // create returns the canonical representation of the user
 app.post('/users', (req, res, next) => {
