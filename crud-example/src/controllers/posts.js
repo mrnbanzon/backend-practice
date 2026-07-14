@@ -13,7 +13,7 @@ const fetch = (req, res, next) => {
     const post = postsService.fetch(req.params.id);
     res.json(post);
   } catch (err) {
-    res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
+    next(err);
   }
 };
 
@@ -29,7 +29,7 @@ const replace = (req, res, next) => {
     const update = postsService.update(req.params.id, req.body);
     res.json(update);
   } catch (err) {
-    res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
+    next(err);
   }
 };
 
@@ -38,7 +38,7 @@ const update = (req, res, next) => {
     const update = postsService.update(req.params.id, req.body);
     res.json(update);
   } catch (err) {
-    res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
+    next(err);
   }
 };
 
