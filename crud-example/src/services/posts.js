@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 
-// mock DB collection
-const posts = new Map();
+import { posts } from '../database/connection.js';
 
 const create = (data) => {
   const { author, message } = data;
@@ -30,9 +29,29 @@ const fetch = (id) => {
   return post;
 };
 
-const fetchAll = () => {
-  const all = [...posts.values()];
+const fetchAll = (limit = 5, offset = 0) => {
+  const all = [...posts.values()].slice(offset, offset + limit);
   return all;
+};
+
+// basic idea of using a cursor in fetching a list of items
+const fetchAllCursor = (limit, cursor) => {
+  const crsr = cursor ? JSON.parse(Buffer.from(cursor, 'base64').toString()) : null;
+  let filtered = [...posts.values()];
+
+  if (crsr) {
+    filtered = filtered.filter(post => post.createdAt > new Date(crsr.createdAt));
+  }
+
+  filtered = filtered.slice(0, limit);
+  const nextCursor = filtered.length
+    ? Buffer.from(JSON.stringify({ createdAt: filtered[filtered.length - 1].createdAt })).toString('base64')
+    : null;
+
+  return {
+    posts: filtered,
+    nextCursor,
+  };
 };
 
 const update = (id, data) => {
@@ -61,6 +80,7 @@ export default {
   create,
   fetch,
   fetchAll,
+  fetchAllCursor,
   update,
   remove,
 };

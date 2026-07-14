@@ -18,9 +18,27 @@ const fetch = (req, res, next) => {
 };
 
 const fetchAll = (req, res, next) => {
-  const allPosts = postsService.fetchAll();
+  const limit = Math.min(Number(req.query.limit) || 5, 10);
+  const offset = Number(req.query.offset) || 0;
+
+  const posts = postsService.fetchAll(limit, offset);
   res.json({
-    posts: allPosts,
+    posts,
+    limit,
+    offset,
+    total: posts.length
+  });
+};
+
+const fetchAllCursor = (req, res, next) => {
+  const limit = Math.min(Number(req.query.limit) || 5, 10);
+  
+  const { posts, nextCursor } = postsService.fetchAllCursor(limit, req.query.cursor);
+  res.json({
+    posts,
+    limit,
+    nextCursor,
+    total: posts.length
   });
 };
 
@@ -51,6 +69,7 @@ export default {
   create,
   fetch,
   fetchAll,
+  fetchAllCursor,
   replace,
   update,
   remove,

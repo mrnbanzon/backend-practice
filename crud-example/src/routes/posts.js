@@ -5,7 +5,7 @@ import postsController from '../controllers/posts.js';
 const router = express.Router();
 
 router.route('/')
-  .get(postsController.fetchAll) // get all posts
+  .get(postsController.fetchAll) // get all posts - basic limit/offset
   .post(postsController.create); // create post
 
 router.route('/:id')
