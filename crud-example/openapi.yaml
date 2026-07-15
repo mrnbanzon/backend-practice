@@ -1,0 +1,45 @@
+openapi: 3.1.1
+info:
+  title: Posts API
+  version: '1.0.0'
+paths:
+  /posts:
+    post:
+      summary: create post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author:
+                  description: name of the post author
+                  type: string
+                message:
+                  description: the message content of the post
+                  type: string
+              required:
+                - author
+                - message
+      responses:
+        '201':
+          description: post created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: id of the created post
+                    type: string
+                  author:
+                    description: name of the post author
+                    type: string
+                  message:
+                    description: the message content of the post
+                    type: string
+                  createdAt:
+                    description: creation date of post
+                    type: string
+                    format: date-time
