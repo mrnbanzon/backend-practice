@@ -7,6 +7,8 @@ import { createUserRepo } from './repos/userRepo.js';
 
 import { bcryptHasher } from './utils/hashers.js';
 
+import { errorHandler } from './middleware/errorHandler.js';
+
 const app = express();
 app.use(express.json());
 
@@ -20,6 +22,8 @@ const userService = createUserService({
 const createUser = createUserController(userService);
 
 app.post('/users', createUser);
+
+app.use(errorHandler);
 
 app.listen(3000, () => {
   console.log('server listening on port 3000');
