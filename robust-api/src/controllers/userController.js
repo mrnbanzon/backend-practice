@@ -1,11 +1,11 @@
+import { asyncHandler } from "../middleware/asyncHandler.js";
+
 export function createUserController(userService) {
-  return async function (req, res, next) {
-    try {
+  return asyncHandler(
+    async function (req, res, next) {
       const payload = req.body;
       const user = await userService.create(payload);
       res.status(201).json({ data: user });
-    } catch (err) {
-      next(err);
     }
-  };
+  );
 };
