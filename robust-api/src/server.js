@@ -5,6 +5,7 @@ import { createUserController } from './controllers/userController.js';
 import { createUserService } from './services/userService.js';
 import { createUserRepo } from './repos/userRepo.js';
 
+import logger from './utils/logger.js';
 import { bcryptHasher } from './utils/hashers.js';
 
 import { errorHandler } from './middleware/errorHandler.js';
@@ -26,5 +27,5 @@ app.post('/users', createUser);
 app.use(errorHandler);
 
 app.listen(3000, () => {
-  console.log('server listening on port 3000');
+  logger.info('server listening on port 3000');
 });

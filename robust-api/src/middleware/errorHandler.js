@@ -1,3 +1,4 @@
+import logger from "../utils/logger.js";
 import { ApiError } from "../errors/ApiError.js";
 
 export function errorHandler(err, req, res, next) {
@@ -7,7 +8,7 @@ export function errorHandler(err, req, res, next) {
 
   const status = error.status || 500;
 
-  console.error(
+  logger.error(
     {
       err: error,
       path: req.path,
