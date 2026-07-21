@@ -2,6 +2,8 @@ import express from 'express';
 
 import { metricsMiddleware, metricsEndpoint } from './metrics.js';
 
+import uploadRoute from './routes/upload.js';
+
 import { createUserController } from './controllers/userController.js';
 import { createUserService } from './services/userService.js';
 import { createUserRepo } from './repos/userRepo.js';
@@ -29,6 +31,8 @@ const userService = createUserService({
 const createUser = createUserController(userService);
 
 app.post('/users', createUser);
+
+app.use('/upload', uploadRoute);
 
 app.use(errorHandler);
 
