@@ -1,0 +1,21 @@
+{
+  "name": "session-based-auth-example",
+  "version": "1.0.0",
+  "description": "basic example of session based authentication",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
+    "dev": "node --env-file=.env --watch ./src/server.js"
+  },
+  "dependencies": {
+    "argon2": "^0.45.1",
+    "connect-redis": "^10.0.0",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "redis": "^6.1.0"
+  }
+}
