@@ -1,11 +1,10 @@
 import crypto from 'crypto';
 import { hashPassword, verifyPassword } from '../utils/password.js';
 
-// mock users db: id -> { id, email, passwordHash, createdAt }
-const users = new Map();
+import users from '../repositories/users.js';
 
 const registerUser = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, roles = ['user'] } = req.body;
   const id = crypto.randomUUID();
 
   const passwordHash = await hashPassword(password);
@@ -14,6 +13,7 @@ const registerUser = async (req, res, next) => {
     id,
     email,
     passwordHash,
+    roles,
     createdAt: new Date().toISOString(),
   });
 
@@ -48,6 +48,7 @@ const loginUser = async (req, res, next) => {
   }
 
   req.session.userId = user.id;
+  req.session.roles = user.roles;
   return res.send('Logged in successfully.');
 };
 
