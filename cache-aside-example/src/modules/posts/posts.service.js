@@ -12,8 +12,6 @@ const fetchPosts = async ({ cursor = '', limit = 5 }) => {
     .sort({ _id: 1 })
     .limit(limit + 1)
     .lean();
-  
-  console.log(`fetchPosts - posts.length: ${posts.length}`);
 
   const hasNext = posts.length > limit;
 
