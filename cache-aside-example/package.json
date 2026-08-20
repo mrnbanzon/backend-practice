@@ -1,0 +1,19 @@
+{
+  "name": "cache-aside-example",
+  "version": "1.0.0",
+  "description": "basic example of using the cache aside pattern for an api endpoint",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
+    "dev": "node --watch ./src/server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.9.3",
+    "redis": "^6.2.1"
+  }
+}
