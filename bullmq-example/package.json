@@ -1,0 +1,17 @@
+{
+  "name": "bullmq-example",
+  "version": "1.0.0",
+  "description": "basic example of using bullmq",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "bullmq": "^6.2.0",
+    "redis": "^6.2.1"
+  }
+}
