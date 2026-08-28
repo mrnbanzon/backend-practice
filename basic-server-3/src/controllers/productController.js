@@ -34,6 +34,28 @@ const getAllProducts = async (req, res, next) => {
   }
 };
 
+const getProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const cacheKey = `basic-server-3:products:${id}`;
+
+    const cached = await redis.get(cacheKey);
+    if (cached) {
+      return res.json(JSON.parse(cached));
+    }
+
+    const existing = await Product.findById(id).lean();
+    if (!existing) {
+      return res.status(404).send('Product Not Found');
+    }
+
+    await redis.set(cacheKey, JSON.stringify(existing), { expiration: { type: 'EX', value: '60' } });
+    res.json(existing);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const updateProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -41,7 +63,7 @@ const updateProduct = async (req, res, next) => {
 
     const existing = await Product.findById(id);
     if (!existing) {
-      return res.status(404).send('Product not found.');
+      return res.status(404).send('Product Not Found');
     }
 
     existing.name = name || existing.name;
@@ -49,6 +71,8 @@ const updateProduct = async (req, res, next) => {
     existing.category = category || existing.category;
 
     await existing.save();
+    
+    await redis.del(`basic-server-3:products:${id}`);
     await redis.del('basic-server-3:products');
 
     res.json(existing);
@@ -62,6 +86,7 @@ const deleteProduct = async (req, res, next) => {
     const { id } = req.params;
     await Product.findByIdAndDelete(id);
 
+    await redis.del(`basic-server-3:products:${id}`);
     await redis.del('basic-server-3:products');
     res.status(204).end();
   } catch (err) {
@@ -72,6 +97,7 @@ const deleteProduct = async (req, res, next) => {
 export {
   createProduct,
   getAllProducts,
+  getProduct,
   updateProduct,
   deleteProduct,
 };
