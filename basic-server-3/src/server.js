@@ -1,5 +1,7 @@
 await import('./db/mongo.js');
 await import('./utils/redisClient.js');
+await import('./utils/queues.js');
+await import('./utils/workers.js');
 
 import express from 'express';
 

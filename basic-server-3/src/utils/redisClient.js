@@ -1,4 +1,5 @@
 import { createClient } from 'redis';
+import { createNodeRedisClient } from 'bullmq';
 
 const redis = createClient({
   url: process.env.REDIS_URL || 'redis://localhost:6379',
@@ -14,4 +15,9 @@ redis.on('error', (err) => {
 
 await redis.connect();
 
-export  { redis };
+const bullMQConnection = createNodeRedisClient(redis);
+
+export  {
+  redis,
+  bullMQConnection,
+};

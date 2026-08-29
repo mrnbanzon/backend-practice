@@ -12,6 +12,7 @@
     "dev": "node --env-file=./.env --watch ./src/server.js"
   },
   "dependencies": {
+    "bullmq": "^6.3.1",
     "express": "^5.2.1",
     "mongoose": "^9.9.4",
     "redis": "^6.2.1"

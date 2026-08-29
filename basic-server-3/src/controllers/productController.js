@@ -15,7 +15,7 @@ const createProduct = async (req, res, next) => {
 
     // TODO: consider moving caching logic to utils
     for await(const key of redis.scanIterator({
-      MATCH: 'basic-server-3:products:limit*',
+      MATCH: 'basic-server-3:products:filter*',
       COUNT: 100
     })) {
       if (key.length) {
@@ -35,7 +35,9 @@ const getProducts = async (req, res, next) => {
     const parsedCursor = parseCursor(cursor);
     const parsedLimit = Number(limit);
 
-    const cacheKey = `basic-server-3:products:limit:${limit}${category ? `:${category}` : ''}${parsedCursor ? `:${parsedCursor}` : ''}`.trim();
+    const categoryCacheKey = category ? `:category:${category}` : '';
+    const cursorCacheKey = parsedCursor ? `:cursor:${parsedCursor}`: '';
+    const cacheKey = `basic-server-3:products:filter:limit:${limit}${categoryCacheKey}${cursorCacheKey}`.trim();
     const cached = await redis.get(cacheKey);
     if (cached) {
       return res.json(JSON.parse(cached));
@@ -68,7 +70,7 @@ const getProducts = async (req, res, next) => {
       }
     };
 
-    await redis.set(cacheKey, JSON.stringify(result), { expiration: { type: 'EX', value: 60 } });
+    await redis.set(cacheKey, JSON.stringify(result), { expiration: { type: 'EX', value: 180 } });
     res.json(result);
   } catch (err) {
     next(err);
@@ -78,7 +80,7 @@ const getProducts = async (req, res, next) => {
 const getProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const cacheKey = `basic-server-3:products:${id}`;
+    const cacheKey = `basic-server-3:products:id:${id}`;
 
     const cached = await redis.get(cacheKey);
     if (cached) {
@@ -114,10 +116,10 @@ const updateProduct = async (req, res, next) => {
     await existing.save();
     
     // TODO: consider moving caching logic to utils 
-    await redis.del(`basic-server-3:products:${id}`);
+    await redis.del(`basic-server-3:products:id:${id}`);
 
     for await(const key of redis.scanIterator({
-      MATCH: 'basic-server-3:products:limit*',
+      MATCH: 'basic-server-3:products:filter*',
       COUNT: 100
     })) {
       if (key.length) {
@@ -137,10 +139,10 @@ const deleteProduct = async (req, res, next) => {
     await Product.findByIdAndDelete(id);
 
     // TODO: consider moving caching logic to utils 
-    await redis.del(`basic-server-3:products:${id}`);
+    await redis.del(`basic-server-3:products:id:${id}`);
     
     for await(const key of redis.scanIterator({
-      MATCH: 'basic-server-3:products:limit*',
+      MATCH: 'basic-server-3:products:filter*',
       COUNT: 100
     })) {
       if (key.length) {
