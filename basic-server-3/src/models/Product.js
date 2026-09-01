@@ -26,4 +26,10 @@ const productSchema = new Schema({
   }
 });
 
+productSchema.pre('save', function() {
+  if (this.isModified()) {
+    this.updatedAt = new Date();
+  }
+});
+
 export default model('Product', productSchema);

@@ -1,17 +1,12 @@
-import Product from "../models/Product.js";
+import productService from '../services/productService.js';
+
 import { redis } from '../utils/redisClient.js';
-import { generateCursor, parseCursor } from "../utils/cursor.js";
+import { parseCursor } from "../utils/cursor.js";
 
 const createProduct = async (req, res, next) => {
   try {
     const { name, price, category } = req.body;
-    const newProduct = new Product({
-      name,
-      price,
-      category,
-    });
-
-    await newProduct.save();
+    const newProduct = await productService.createProduct({ name, price, category });
 
     // TODO: consider moving caching logic to utils
     for await(const key of redis.scanIterator({
@@ -33,40 +28,27 @@ const getProducts = async (req, res, next) => {
   try {
     const { cursor = '', category = '', limit = 5 } = req.query;
     const parsedCursor = parseCursor(cursor);
-    const parsedLimit = Number(limit);
 
-    const categoryCacheKey = category ? `:category:${category}` : '';
-    const cursorCacheKey = parsedCursor ? `:cursor:${parsedCursor}`: '';
-    const cacheKey = `basic-server-3:products:filter:limit:${limit}${categoryCacheKey}${cursorCacheKey}`.trim();
-    const cached = await redis.get(cacheKey);
+    const categoryKey = category ? `:category:${category}` : '';
+    const cursorKey = parsedCursor ? `:cursor:${parsedCursor}`: '';
+    const cacheKey = `basic-server-3:products:filter:limit:${limit}${categoryKey}${cursorKey}`.trim();
+  
+    const cached = await redis.get(cacheKey);  
     if (cached) {
       return res.json(JSON.parse(cached));
     }
 
-    const query = {};
-    if (parsedCursor) {
-      query._id = {
-        $gt: parsedCursor,
-      }
-    }
-
-    if (category) {
-      query.category = category;
-    }
-
-    const products = await Product.find(query).limit(parsedLimit + 1).lean();
-    
-    const hasNext = products.length > parsedLimit;
-
-    if (hasNext) {
-      products.pop();
-    }
+    const { products, nextCursor } = await productService.fetchProducts({
+      limit: Number(limit),
+      cursor: parsedCursor,
+      category,
+    });
 
     const result = {
       products,
       pagination: {
-        hasNext,
-        nextCursor: hasNext ? generateCursor(products[products.length - 1]) : null,
+        hasNext: !!nextCursor,
+        nextCursor,
       }
     };
 
@@ -87,7 +69,7 @@ const getProduct = async (req, res, next) => {
       return res.json(JSON.parse(cached));
     }
 
-    const existing = await Product.findById(id).lean();
+    const existing = await productService.fetchProductById(id);
     if (!existing) {
       return res.status(404).send('Product Not Found');
     }
@@ -104,16 +86,7 @@ const updateProduct = async (req, res, next) => {
     const { id } = req.params;
     const { name, price, category } = req.body;
 
-    const existing = await Product.findById(id);
-    if (!existing) {
-      return res.status(404).send('Product Not Found');
-    }
-
-    existing.name = name || existing.name;
-    existing.price = price || existing.price;
-    existing.category = category || existing.category;
-
-    await existing.save();
+    const updatedProduct = await productService.updateProduct(id, { name, price, category });
     
     // TODO: consider moving caching logic to utils 
     await redis.del(`basic-server-3:products:id:${id}`);
@@ -127,8 +100,11 @@ const updateProduct = async (req, res, next) => {
       }
     }
 
-    res.json(existing);
+    res.json(updatedProduct);
   } catch (err) {
+    if (err.message === 'Product Not Found') {
+      return res.status(404).send('Product Not Found');
+    }
     next(err);
   }
 };
@@ -136,7 +112,7 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Product.findByIdAndDelete(id);
+    await productService.deleteProduct(id);
 
     // TODO: consider moving caching logic to utils 
     await redis.del(`basic-server-3:products:id:${id}`);
