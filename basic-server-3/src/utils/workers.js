@@ -3,6 +3,7 @@ import { redis, bullMQConnection as connection } from "./redisClient.js";
 
 import productService from "../services/productService.js";
 
+// TODO: consider moving this to a separate file for better separation of concerns
 const handlePeriodicRefresh = async () => {
   // only refresh cache of filtered list for now
   for await (const keys of redis.scanIterator({
@@ -36,7 +37,8 @@ const handlePeriodicRefresh = async () => {
   }
 };
 
-// processes the jobs queued in the refresh cache queue - consider using function currying
+// processes the jobs queued in the refresh cache queue 
+// TODO: consider using function currying
 const processCacheRefresh = new Worker('refresh-cache', async (job) => {
   console.log('processing job...', job.name, job.id);
 
