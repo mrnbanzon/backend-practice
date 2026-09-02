@@ -9,9 +9,9 @@ const refreshCacheQueue = new Queue('refresh-cache', {
   }
 });
 
-// run refresh periodically
+// run refresh periodically - every 5 minutes
 await refreshCacheQueue.upsertJobScheduler('refresh-scheduler',
-  { every: 60 * 1 * 1000 },
+  { every: 60 * 5 * 1000 },
   {
     name: 'periodic-cache-refresh'
   }
