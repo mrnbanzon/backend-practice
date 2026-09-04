@@ -1,25 +1,15 @@
 import { Router } from 'express';
 
+import UserController from './controller.js';
+
 const router = Router();
 
 router.route('/')
-  .post((req, res) => {
-    // Handle user creation
-    res.send('User created');
-  })
+  .post(UserController.createUser)
 
 router.route('/:id')
-  .get((req, res) => {
-    // Handle user retrieval
-    res.send(`User with ID ${req.params.id} retrieved`);
-  })
-  .put((req, res) => {
-    // Handle user update
-    res.send(`User with ID ${req.params.id} updated`);
-  })
-  .delete((req, res) => {
-    // Handle user deletion
-    res.send(`User with ID ${req.params.id} deleted`);
-  })
+  .get(UserController.fetchUser)
+  .put(UserController.updateUser)
+  .delete(UserController.deleteUser)
 
 export default router;
