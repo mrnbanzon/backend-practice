@@ -1,5 +1,7 @@
 import UserService from './service.js';
 
+import logger from '../../shared/logger.js';
+
 const createUser = async(req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -38,7 +40,7 @@ const deleteUser = async (req, res, next) => {
     res.status(204).send();
   } catch (err) {
     if (err.message === 'User not found') {
-      console.log('Ignoring deletion error: User not found');
+      logger.info('Ignoring deletion error: User not found');
       return res.status(404).send();
     }
     next(err);
