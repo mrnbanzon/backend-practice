@@ -21,4 +21,19 @@ describe('userService.createUser', () => {
     expect(mockPasswordHasher.hash).toHaveBeenCalledWith('password');
     expect(mockUserRepo.create).toHaveBeenCalledWith({ username: 'mike', email: 'mike@example.com', passwordHash: 'hashedpassword' });
   });
+
+   test('should throw 409 error when email exists', async () => {
+    const mockUserRepo = {
+      findByEmail: jest.fn().mockResolvedValue({ id: 1, username: 'mike', email: 'mike@example.com' }),
+    };
+
+    const mockPasswordHasher = {
+      hash: jest.fn(),
+    };
+
+    const userService = createUserService({ userRepo: mockUserRepo, passwordHasher: mockPasswordHasher });
+
+    await expect(userService.createUser({ username: 'mike', email: 'mike@example.com', password: 'passowrd' }))
+      .rejects.toMatchObject({ message: 'User with email already exists', status: 409 });
+  });
 });
