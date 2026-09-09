@@ -1,0 +1,18 @@
+{
+  "name": "testing-example",
+  "version": "1.0.0",
+  "description": "examples of how to incorporate testing",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest tests/**/*.test.js"
+  },
+  "devDependencies": {
+    "jest": "^30.5.1"
+  }
+}
