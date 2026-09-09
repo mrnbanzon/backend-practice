@@ -22,6 +22,30 @@ describe('userService.createUser', () => {
     expect(mockUserRepo.create).toHaveBeenCalledWith({ username: 'mike', email: 'mike@example.com', passwordHash: 'hashedpassword' });
   });
 
+  test('should throw 400 error when missing required fields', async () => {
+    const mockUserRepo = {
+      findByEmail: jest.fn().mockResolvedValue(null),
+      create: jest.fn(),
+    };
+
+    const passwordHasher = {
+      hash: jest.fn(),
+    };
+
+    const userService = createUserService({ userRepo: mockUserRepo, passwordHasher });
+
+    const testCases = [
+      { username: '', email: 'mike@example.com', password: 'password' },
+      { username: 'mike', email: '', password: 'password' },
+      { username: 'mike', email: 'mike@example.com', password: '' }
+    ];
+
+    for (const testCase of testCases) {
+      await expect(userService.createUser(testCase))
+        .rejects.toMatchObject({ message: 'Missing required fields', status: 400 });
+    } 
+  });
+
    test('should throw 409 error when email exists', async () => {
     const mockUserRepo = {
       findByEmail: jest.fn().mockResolvedValue({ id: 1, username: 'mike', email: 'mike@example.com' }),
