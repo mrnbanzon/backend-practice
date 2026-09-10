@@ -1,4 +1,4 @@
-name: Run Tests
+name: Run Tests for testing-example
 
 on: [push]
 
@@ -7,17 +7,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24.8.0'
           cache: 'npm'
 
       - name: Install Dependencies
+        working-directory: ./testing-example
         run: npm ci
 
       - name: Run Tests
+        working-directory: ./testing-example
         run: npm test      
 
