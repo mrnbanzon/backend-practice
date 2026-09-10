@@ -1,6 +1,13 @@
 name: Run Tests for testing-example
 
-on: [push]
+on:
+  push:
+    paths:
+      - './testing-example/**'
+  pull_request:
+    paths:
+      - './testing-example/**'
+
 
 jobs:
   test:
