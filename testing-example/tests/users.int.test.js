@@ -20,4 +20,22 @@ describe('POST /users (integration test)', () => {
     expect(response.body).toEqual({ id: 1, username: 'mike', email: 'mike@example.com' });
     expect(mockUserService.createUser).toHaveBeenCalled();
   });
+
+  // testing error handling
+  test('should return rejected error', async () => {
+    // mock userService - throws error
+    const mockUserService = {
+      createUser: jest.fn().mockRejectedValue({ status: 400, message: 'Missing required fields' }),
+    };
+
+    const app = createApp({ userService: mockUserService });
+
+    const response = await request(app)
+      .post('/users')
+      .send({ username: '', email: '', password: 'password' })
+      .expect(400);
+
+    expect(response.body).toEqual({ error: 'Missing required fields' });
+    expect(mockUserService.createUser).toHaveBeenCalled();
+  });
 });
