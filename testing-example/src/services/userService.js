@@ -1,5 +1,6 @@
 export function createUserService({ userRepo, passwordHasher }) {
   const createUser = async ({ username, email, password }) => {
+    console.log('Create User', username, email);
     if (!username || !email || !password) {
       const err = new Error('Missing required fields');
       err.status = 400;
