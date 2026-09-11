@@ -52,7 +52,6 @@ describe('Testing OpenAPI spec', () => {
       .expect(201);
     
     const schema = getResponseSchema('/users', 'POST', '201');
-    // console.log('schema', schema);
     const validate = ajv.compile(schema);
     const ok = validate(response.body);
 
