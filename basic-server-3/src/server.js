@@ -5,9 +5,8 @@ await import('./utils/workers.js');
 
 import express from 'express';
 
+import { PORT } from './config.js';
 import productRoutes from './routes/productRoutes.js';
-
-const PORT = process.env.PORT || 4000;
 
 const app = express();
 app.use(express.json());
