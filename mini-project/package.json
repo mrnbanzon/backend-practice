@@ -1,0 +1,14 @@
+{
+  "name": "mini-project",
+  "version": "1.0.0",
+  "description": "mini project that is packaged into a Docker image and deployed to AWS",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
+    "dev": "node --env-file=.env --watch ./src/server.js"
+  }
+}
