@@ -1,0 +1,33 @@
+name: Run Tests for mini-project
+
+on:
+  push:
+    paths:
+      - 'mini-project/**'
+  pull_request:
+    paths:
+      - 'mini-project/**'
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.8.0'
+          cache: 'npm'
+          cache-dependency-path: './mini-project/package-lock.json'
+
+      - name: Install Dependencies
+        working-directory: ./mini-project
+        run: npm ci
+
+      - name: Run Tests
+        working-directory: ./mini-project
+        run: npm test      
+
