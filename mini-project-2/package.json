@@ -7,6 +7,13 @@
   "type": "module",
   "main": "./src/server.js",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest tests"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest tests",
+    "start": "node ./src/server.js",
+    "dev": "node --env-file .env --watch ./src/server.js"
+  },
+  "dependencies": {
+    "argon2": "^0.45.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.11.1"
   }
 }
