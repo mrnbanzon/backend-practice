@@ -1,0 +1,12 @@
+{
+  "name": "mini-project-2",
+  "version": "1.0.0",
+  "description": "mini auth api project",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest tests"
+  }
+}
