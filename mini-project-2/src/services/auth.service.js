@@ -4,7 +4,15 @@ import * as tokenUtil from '../utils/token.util.js';
 export const registerUser = async (data) => {
   const user = await User.create(data);
   const tokens = tokenUtil.generateTokens(user._id);
-  return { user, tokens };
+  
+  return { 
+    user: {
+      _id: user._id,
+      email: user.email,
+      name: user.name
+    },
+    tokens
+  };
 };
 
 export const loginUser = async (email, password) => {
@@ -19,6 +27,14 @@ export const loginUser = async (email, password) => {
   }
 
   const tokens = tokenUtil.generateTokens(user._id);
-  return { user, tokens }; // consider filterting out password before returning user object
+  
+  return { 
+    user: {
+      _id: user._id,
+      email: user.email,
+      name: user.name
+    },
+    tokens
+  };
 };
 
