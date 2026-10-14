@@ -38,3 +38,8 @@ export const loginUser = async (email, password) => {
   };
 };
 
+export const refreshTokens = async (refreshToken) => {
+  const payload = tokenUtil.verifyRefreshToken(refreshToken);
+  const tokens = tokenUtil.generateTokens(payload.sub);
+  return tokens;
+}
