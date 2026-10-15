@@ -1,5 +1,5 @@
 import User from '../models/user.model.js';
-import * as tokenUtil from '../utils/token.util.js';
+import * as tokenUtil from '../utils/token.js';
 
 export const registerUser = async (data) => {
   const user = await User.create(data);

@@ -1,7 +1,7 @@
 import express from 'express';
 
-import authenticate from '../middlewares/auth.middleware.js';
-import allowRoles from '../middlewares/rbac.middleware.js';
+import authenticate from '../middleware/authenticate.js';
+import allowRoles from '../middleware/rbac.js';
 
 import * as adminController from '../controllers/admin.controller.js';
 

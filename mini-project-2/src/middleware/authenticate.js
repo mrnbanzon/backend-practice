@@ -1,5 +1,5 @@
 import User from '../models/user.model.js';
-import * as tokenUtil from '../utils/token.util.js';
+import * as tokenUtil from '../utils/token.js';
 
 export default async (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
