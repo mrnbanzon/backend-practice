@@ -9,7 +9,7 @@ export default async (req, res, next) => {
   }
 
   try {
-    const payload = tokenUtil.verifyAccess(token);
+    const payload = tokenUtil.verifyAccessToken(token);
     req.user = await User.findById(payload.sub);
     next();
   } catch {
