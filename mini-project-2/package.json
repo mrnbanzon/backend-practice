@@ -7,7 +7,8 @@
   "type": "module",
   "main": "./src/server.js",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest tests",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest tests/.*\\.unit\\.test\\.js",
+    "test-integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand tests/.*\\.int\\.test\\.js",
     "start": "node ./src/server.js",
     "dev": "node --env-file .env --watch ./src/server.js"
   },
@@ -16,5 +17,12 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.11.1"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "mongodb-memory-server": "^11.3.0",
+    "supertest": "^7.3.1",
+    "tslib": "^2.8.1",
+    "typescript": "^7.0.2"
   }
 }
