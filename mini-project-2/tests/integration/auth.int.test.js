@@ -1,13 +1,13 @@
 import { beforeAll, afterEach, afterAll, describe, expect, test } from '@jest/globals';
 import request from 'supertest';
 
-import createApp from '../src/app.js';
+import createApp from '../../src/app.js';
 
 import { connect, clearDatabase, closeDatabase } from './dbHandler.js';
 
 beforeAll(async () => {
   await connect();
-  await import('../src/models/user.model.js');
+  await import('../../src/models/user.model.js');
 });
 
 afterEach(async () => {

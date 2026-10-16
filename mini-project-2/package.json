@@ -7,8 +7,8 @@
   "type": "module",
   "main": "./src/server.js",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest tests/.*\\.unit\\.test\\.js",
-    "test-integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand tests/.*\\.int\\.test\\.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --selectProjects unit",
+    "test:integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --selectProjects integration",
     "start": "node ./src/server.js",
     "dev": "node --env-file .env --watch ./src/server.js"
   },
