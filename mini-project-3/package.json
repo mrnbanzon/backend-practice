@@ -1,0 +1,17 @@
+{
+  "name": "mini-project-3",
+  "version": "1.0.0",
+  "description": "mini REST project on pagination and filtering APIs",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
+    "dev": "node --watch ./src/server.js"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
