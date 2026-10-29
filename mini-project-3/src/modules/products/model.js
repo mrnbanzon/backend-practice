@@ -47,4 +47,4 @@ const schema = mongoose.Schema({
 
 schema.index({ name: 'text', description: 'text' }); // text index for search; expensive - consider mongodb atlas search for production environments
 
-export default mongoose.Model('Product', schema);
+export default mongoose.model('Product', schema);
